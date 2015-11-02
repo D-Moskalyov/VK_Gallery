@@ -2,5 +2,10 @@
 <project version="4">
   <component name="VcsDirectoryMappings">
     <mapping directory="$PROJECT_DIR$" vcs="Git" />
+    <mapping directory="E:\STEP\21_Android\VK_Gallery\app\libs\fresco" vcs="Git" />
+    <mapping directory="E:\STEP\21_Android\VK_Gallery\app\libs\gson" vcs="Git" />
+    <mapping directory="E:\STEP\21_Android\VK_Gallery\app\libs\realm-java" vcs="Git" />
+    <mapping directory="E:\STEP\21_Android\VK_Gallery\app\libs\retrofit" vcs="Git" />
+    <mapping directory="E:\STEP\21_Android\VK_Gallery\app\libs\vk-android-sdk" vcs="Git" />
   </component>
 </project>
