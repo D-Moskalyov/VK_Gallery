@@ -1,2 +1,3 @@
 include ':vksdk_library', ':app'
 project(':vksdk_library').projectDir = new File('app/libs/vk-android-sdk/vksdk_library')
+//project(':retrofit').projectDir = new File('app/libs/retrofit/retrofit')
