@@ -1,9 +1,13 @@
-package com.android.vk_gallery.app;
+package com.android.vk_gallery.app.model;
 
 
+import android.os.Parcel;
+import android.os.Parcelable;
 import com.google.gson.annotations.SerializedName;
 
-public class PhotoURL {
+import java.io.Serializable;
+
+public class PhotoURL implements Parcelable {
     @SerializedName("src")
     String src;
     @SerializedName("width")
@@ -46,5 +50,15 @@ public class PhotoURL {
 
     public void setWidth(int width) {
         this.width = width;
+    }
+
+    //@Override
+    public int describeContents() {
+        return 0;
+    }
+
+    //@Override
+    public void writeToParcel(Parcel dest, int flags) {
+
     }
 }

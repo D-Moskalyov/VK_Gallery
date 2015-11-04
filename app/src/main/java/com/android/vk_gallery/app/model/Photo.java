@@ -1,4 +1,4 @@
-package com.android.vk_gallery.app;
+package com.android.vk_gallery.app.model;
 
 
 import com.google.gson.annotations.SerializedName;
@@ -16,7 +16,7 @@ public class Photo {
     ArrayList<PhotoURL> sizes;
 
     public Photo(){
-
+        sizes = new ArrayList<PhotoURL>();
     }
 
     public int getAid() {

@@ -1,10 +1,12 @@
-package com.android.vk_gallery.app;
+package com.android.vk_gallery.app.deserializer;
 
+import com.android.vk_gallery.app.model.AlbumItem;
+import com.android.vk_gallery.app.model.CollectionAlbums;
 import com.google.gson.*;
 
 import java.lang.reflect.Type;
 
-public class CollectionAlbumsDeserialiser implements JsonDeserializer<CollectionAlbums> {
+public class CollectionAlbumsDeserializer implements JsonDeserializer<CollectionAlbums> {
     @Override
     public CollectionAlbums deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
         CollectionAlbums collectionAlbums = new CollectionAlbums();

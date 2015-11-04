@@ -1,33 +1,23 @@
-package com.android.vk_gallery.app;
+package com.android.vk_gallery.app.activity;
 
-import android.app.ActionBar;
-import android.app.Fragment;
 import android.content.Intent;
-import android.graphics.Picture;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentTransaction;
-import android.view.View;
-import android.widget.GridLayout;
-import android.widget.LinearLayout;
-import android.widget.TextView;
-import android.widget.Toast;
-import com.facebook.drawee.view.SimpleDraweeView;
+import com.android.vk_gallery.app.fragment.FragmentCover;
+import com.android.vk_gallery.app.MyApplication;
+import com.android.vk_gallery.app.R;
+import com.android.vk_gallery.app.service.VKClient;
+import com.android.vk_gallery.app.model.AlbumItem;
+import com.android.vk_gallery.app.model.CollectionAlbums;
 import com.vk.sdk.VKAccessToken;
 import com.vk.sdk.VKCallback;
 import com.vk.sdk.VKScope;
 import com.vk.sdk.VKSdk;
 import com.vk.sdk.api.*;
-import com.vk.sdk.util.VKUtil;
 import retrofit.Call;
 import retrofit.Callback;
 import retrofit.Response;
 import retrofit.Retrofit;
-
-import java.io.IOException;
-import java.util.List;
-import java.util.Map;
 
 
 public class MainActivity extends FragmentActivity {

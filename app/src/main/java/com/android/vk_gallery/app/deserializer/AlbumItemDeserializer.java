@@ -1,6 +1,7 @@
-package com.android.vk_gallery.app;
+package com.android.vk_gallery.app.deserializer;
 
 
+import com.android.vk_gallery.app.model.AlbumItem;
 import com.google.gson.*;
 
 import java.lang.reflect.Type;

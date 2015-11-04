@@ -1,8 +1,8 @@
-package com.android.vk_gallery.app;
+package com.android.vk_gallery.app.deserializer;
 
 
+import com.android.vk_gallery.app.model.User;
 import com.google.gson.*;
-import com.google.gson.annotations.JsonAdapter;
 
 import java.lang.reflect.Type;
 

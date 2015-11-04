@@ -1,4 +1,4 @@
-package com.android.vk_gallery.app;
+package com.android.vk_gallery.app.model;
 
 
 import com.google.gson.annotations.SerializedName;

@@ -1,5 +1,7 @@
-package com.android.vk_gallery.app;
+package com.android.vk_gallery.app.service;
 
+import com.android.vk_gallery.app.deserializer.*;
+import com.android.vk_gallery.app.model.*;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.squareup.okhttp.OkHttpClient;
@@ -13,7 +15,7 @@ public class ServiceGenerator {
     static Gson gson = new GsonBuilder()
             .registerTypeAdapter(User.class, new UserDeserializer())
             .registerTypeAdapter(AlbumItem.class, new AlbumItemDeserializer())
-            .registerTypeAdapter(CollectionAlbums.class, new CollectionAlbumsDeserialiser())
+            .registerTypeAdapter(CollectionAlbums.class, new CollectionAlbumsDeserializer())
             .registerTypeAdapter(Photo.class, new PhotoDeserializer())
             .registerTypeAdapter(PhotoURL.class, new PhotoURLDeserializer())
             .registerTypeAdapter(CollectionPhotos.class, new CollectionPhotosDeserializer()).create();

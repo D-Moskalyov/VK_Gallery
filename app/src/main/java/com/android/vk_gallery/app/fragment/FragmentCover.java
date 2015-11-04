@@ -1,4 +1,4 @@
-package com.android.vk_gallery.app;
+package com.android.vk_gallery.app.fragment;
 
 import android.app.Fragment;
 import android.content.Intent;
@@ -10,6 +10,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.TextView;
+import com.android.vk_gallery.app.R;
+import com.android.vk_gallery.app.activity.AlbumActivity;
 import com.facebook.drawee.view.SimpleDraweeView;
 
 public class FragmentCover extends Fragment  {
