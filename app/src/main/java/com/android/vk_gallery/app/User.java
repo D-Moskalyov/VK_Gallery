@@ -5,38 +5,38 @@ import com.google.gson.annotations.SerializedName;
 
 
 public class User {
-    @SerializedName("id")
-    int mId;
+    @SerializedName("uid")
+    int uid;
     @SerializedName("first_name")
-    String mFirst_name;
+    String first_name;
     @SerializedName("last_name")
-    String mLast_name;
+    String last_name;
 
     public User(){
 
     }
 
-    public String getmFirst_name() {
-        return mFirst_name;
+    public String getLast_name() {
+        return last_name;
     }
 
-    public void setmFirst_name(String mFirst_name) {
-        this.mFirst_name = mFirst_name;
+    public void setLast_name(String last_name) {
+        this.last_name = last_name;
     }
 
-    public int getmId() {
-        return mId;
+    public int getUid() {
+        return uid;
     }
 
-    public void setmId(int mId) {
-        this.mId = mId;
+    public void setUid(int uid) {
+        this.uid = uid;
     }
 
-    public String getmLast_name() {
-        return mLast_name;
+    public String getFirst_name() {
+        return first_name;
     }
 
-    public void setmLast_name(String mLast_name) {
-        this.mLast_name = mLast_name;
+    public void setFirst_name(String first_name) {
+        this.first_name = first_name;
     }
 }

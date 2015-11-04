@@ -15,9 +15,9 @@ public class UserDeserializer  implements JsonDeserializer<User> {
         JsonArray jsonArray = jsonObject.get("response").getAsJsonArray();
         JsonObject jsonObject1 = jsonArray.get(0).getAsJsonObject();
 
-        user.setmId(jsonObject1.get("uid").getAsInt());
-        user.setmFirst_name(jsonObject1.get("first_name").getAsString());
-        user.setmLast_name(jsonObject1.get("last_name").getAsString());
+        user.setUid(jsonObject1.get("uid").getAsInt());
+        user.setFirst_name(jsonObject1.get("first_name").getAsString());
+        user.setLast_name(jsonObject1.get("last_name").getAsString());
 
         return user;
     }

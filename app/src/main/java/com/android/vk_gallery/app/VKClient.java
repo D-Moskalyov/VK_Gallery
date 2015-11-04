@@ -10,4 +10,7 @@ public interface VKClient {
 
     @GET("users.get")
     Call<User> getUser(@Query("user_ids") int user_ids);
+
+    @GET("photos.get")
+    Call<CollectionPhotos> getPhotos(@Query("aid") int aid);
 }

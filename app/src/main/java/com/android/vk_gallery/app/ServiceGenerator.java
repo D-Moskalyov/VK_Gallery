@@ -13,7 +13,10 @@ public class ServiceGenerator {
     static Gson gson = new GsonBuilder()
             .registerTypeAdapter(User.class, new UserDeserializer())
             .registerTypeAdapter(AlbumItem.class, new AlbumItemDeserializer())
-            .registerTypeAdapter(CollectionAlbums.class, new CollectionAlbumsDeserialiser()).create();
+            .registerTypeAdapter(CollectionAlbums.class, new CollectionAlbumsDeserialiser())
+            .registerTypeAdapter(Photo.class, new PhotoDeserializer())
+            .registerTypeAdapter(PhotoURL.class, new PhotoURLDeserializer())
+            .registerTypeAdapter(CollectionPhotos.class, new CollectionPhotosDeserializer()).create();
 //    Type collectionType = new TypeToken<List<AlbumItem>>(){}.getType();
 //    List<AlbumItem> enums = gson.fromJson(yourJson, collectionType);
     private static OkHttpClient httpClient = new OkHttpClient();

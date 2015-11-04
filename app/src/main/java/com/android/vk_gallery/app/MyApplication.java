@@ -4,12 +4,13 @@ package com.android.vk_gallery.app;
 import android.content.Intent;
 import android.support.annotation.Nullable;
 import android.widget.Toast;
+import com.facebook.drawee.backends.pipeline.Fresco;
 import com.vk.sdk.VKAccessToken;
 import com.vk.sdk.VKAccessTokenTracker;
 import com.vk.sdk.VKSdk;
 
 public class MyApplication extends android.app.Application {
-
+    VKClient client;
     VKAccessTokenTracker vkAccessTokenTracker = new VKAccessTokenTracker() {
         @Override
         public void onVKAccessTokenChanged(@Nullable VKAccessToken oldToken, @Nullable VKAccessToken newToken) {
@@ -27,5 +28,11 @@ public class MyApplication extends android.app.Application {
         super.onCreate();
         vkAccessTokenTracker.startTracking();
         VKSdk.initialize(this);
+        client = ServiceGenerator.createService(VKClient.class);
+        Fresco.initialize(this);
+    }
+
+    public VKClient getVKClient(){
+        return client;
     }
 }
