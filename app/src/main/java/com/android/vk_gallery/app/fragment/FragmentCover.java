@@ -8,6 +8,7 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 import com.android.vk_gallery.app.R;
@@ -17,10 +18,12 @@ import com.facebook.drawee.view.SimpleDraweeView;
 public class FragmentCover extends Fragment  {
 
     Bundle bundle;
+    boolean isOffline;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        isOffline = false;
     }
 
     @Nullable
@@ -42,6 +45,14 @@ public class FragmentCover extends Fragment  {
         Uri uri = Uri.parse(bundle.getString("Thumb_src"));
         SimpleDraweeView simpleDraweeView =
                 (SimpleDraweeView) this.getView().findViewById(R.id.my_image_view);
+
+        int id = bundle.getInt("id");
+        simpleDraweeView.setId(id);
+        //simpleDraweeView.setLayoutParams(new LinearLayout.LayoutParams(700, 700));
+        simpleDraweeView.setImageURI(uri);
+        String titleCover = bundle.getString("Title");
+        ((TextView) this.getView().findViewById(R.id.titleCover)).setText(titleCover);
+
         simpleDraweeView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -52,19 +63,18 @@ public class FragmentCover extends Fragment  {
                 Intent intent = new Intent(getActivity(), AlbumActivity.class);
                 intent.putExtra("title", textView.getText().toString());
                 intent.putExtra("id", id);
+                intent.putExtra("isOffline", isOffline);
                 startActivity(intent);
             }
         });
-        int id = bundle.getInt("id");
-        simpleDraweeView.setId(id);
-        //simpleDraweeView.setLayoutParams(new LinearLayout.LayoutParams(700, 700));
-        simpleDraweeView.setImageURI(uri);
-        String titleCover = bundle.getString("Title");
-        ((TextView) this.getView().findViewById(R.id.titleCover)).setText(titleCover);
+
         this.getView().findViewById(R.id.check).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int t = 0;
+                if(((CheckBox)v).isChecked())
+                    isOffline = false;
+                else
+                    isOffline = true;
             }
         });
     }

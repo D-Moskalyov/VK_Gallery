@@ -1,15 +1,15 @@
 package com.android.vk_gallery.app.deserializer;
 
 
-import com.android.vk_gallery.app.model.AlbumItem;
+import com.android.vk_gallery.app.modelRealm.Album;
 import com.google.gson.*;
 
 import java.lang.reflect.Type;
 
-public class AlbumItemDeserializer implements JsonDeserializer<AlbumItem> {
+public class AlbumItemDeserializer implements JsonDeserializer<Album> {
     @Override
-    public AlbumItem deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
-        AlbumItem albumItem = new AlbumItem();
+    public Album deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
+        Album album = new Album();
         JsonArray albumItems;
 
         JsonObject jsonObject = json.getAsJsonObject();
@@ -18,10 +18,11 @@ public class AlbumItemDeserializer implements JsonDeserializer<AlbumItem> {
             jsonObject = albumItems.get(0).getAsJsonObject();
         }
 
-        albumItem.setmId(jsonObject.get("aid").getAsInt());
-        albumItem.setmTitle(jsonObject.get("title").getAsString());
-        albumItem.setmThumb_src(jsonObject.get("thumb_src").getAsString());
+        album.setAid(jsonObject.get("aid").getAsInt());
+        album.setTitle(jsonObject.get("title").getAsString());
+        album.setThumb_src(jsonObject.get("thumb_src").getAsString());
+        album.setOwner_id(jsonObject.get("owner_id").getAsInt());
 
-        return albumItem;
+        return album;
     }
 }

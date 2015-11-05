@@ -1,24 +1,25 @@
 package com.android.vk_gallery.app.model;
 
 
+import com.android.vk_gallery.app.modelRealm.Photo;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
 
 public class CollectionPhotos {
     @SerializedName("items")
-    ArrayList<Photo> photoItems;
+    ArrayList<Photo> photos;
 
     public CollectionPhotos() {
-        photoItems = new ArrayList<Photo>();
+        photos = new ArrayList<Photo>();
     }
 
-    public ArrayList<Photo> getPhotoItems() {
-        return photoItems;
+    public ArrayList<Photo> getPhotos() {
+        return photos;
     }
 
-    public void setPhotoItems(ArrayList<Photo> photoItems) {
-        this.photoItems = photoItems;
+    public void setPhotos(ArrayList<Photo> photoItems) {
+        this.photos = photoItems;
     }
 
 

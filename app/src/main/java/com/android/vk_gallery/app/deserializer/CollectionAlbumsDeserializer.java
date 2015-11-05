@@ -1,6 +1,6 @@
 package com.android.vk_gallery.app.deserializer;
 
-import com.android.vk_gallery.app.model.AlbumItem;
+import com.android.vk_gallery.app.modelRealm.Album;
 import com.android.vk_gallery.app.model.CollectionAlbums;
 import com.google.gson.*;
 
@@ -15,7 +15,7 @@ public class CollectionAlbumsDeserializer implements JsonDeserializer<Collection
         JsonArray albumItems = jsonObject.get("response").getAsJsonArray();
 
         for(JsonElement albumItem : albumItems) {
-            collectionAlbums.getAlbumItems().add((AlbumItem) context.deserialize(albumItem, AlbumItem.class));
+            collectionAlbums.getAlbums().add((Album) context.deserialize(albumItem, Album.class));
         }
 
         return collectionAlbums;

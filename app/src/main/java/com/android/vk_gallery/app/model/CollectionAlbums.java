@@ -1,28 +1,30 @@
 package com.android.vk_gallery.app.model;
 
 
+import com.android.vk_gallery.app.modelRealm.Album;
 import com.google.gson.annotations.SerializedName;
+import io.realm.RealmList;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class CollectionAlbums {
+public class CollectionAlbums  {
 
     @SerializedName("items")
-    List<AlbumItem> albumItems;
+    ArrayList<Album> albums;
 //    @SerializedName("count")
 //    int mCount;
 
     public CollectionAlbums(){
-        albumItems = new ArrayList<AlbumItem>();
+        albums = new ArrayList<Album>();
     }
 
-    public List<AlbumItem> getAlbumItems() {
-        return albumItems;
+    public ArrayList<Album> getAlbums() {
+        return albums;
     }
 
-    public void setAlbumItems(List<AlbumItem> albumItems) {
-        this.albumItems = albumItems;
+    public void setAlbums(ArrayList<Album> albums) {
+        this.albums = albums;
     }
 
 

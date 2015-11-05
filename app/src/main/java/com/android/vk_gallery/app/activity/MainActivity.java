@@ -6,38 +6,53 @@ import android.support.v4.app.FragmentActivity;
 import com.android.vk_gallery.app.fragment.FragmentCover;
 import com.android.vk_gallery.app.MyApplication;
 import com.android.vk_gallery.app.R;
+import com.android.vk_gallery.app.modelRealm.Album;
 import com.android.vk_gallery.app.service.VKClient;
-import com.android.vk_gallery.app.model.AlbumItem;
 import com.android.vk_gallery.app.model.CollectionAlbums;
+import com.facebook.drawee.backends.pipeline.Fresco;
 import com.vk.sdk.VKAccessToken;
 import com.vk.sdk.VKCallback;
 import com.vk.sdk.VKScope;
 import com.vk.sdk.VKSdk;
 import com.vk.sdk.api.*;
+import io.realm.Realm;
+import io.realm.RealmList;
+import io.realm.RealmQuery;
+import io.realm.RealmResults;
+import io.realm.internal.CheckedRow;
+import io.realm.internal.Table;
+import io.realm.internal.UncheckedRow;
 import retrofit.Call;
 import retrofit.Callback;
 import retrofit.Response;
 import retrofit.Retrofit;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class MainActivity extends FragmentActivity {
 
     //protected MyApplication app;
     private static String[] sMyScope = new String[]{VKScope.PHOTOS};
+    RealmResults<Album> result;
+    Realm realm;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //realm = ((MyApplication)getApplicationContext()).getRealm();
         setContentView(R.layout.main_layout);
         //VKSdk.initialize(getApplicationContext());
         //app = (MyApplication)getApplication();
         //app.customAppMethod();
-
         VKSdk.login(this, sMyScope);
+        realm = Realm.getDefaultInstance();
+        //VKSdk.login(this, sMyScope);
         //VKSdk.login(Fragment runningFragment, String... scope);
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    protected void onActivityResult(final int requestCode, int resultCode, Intent data) {
         if (!VKSdk.onActivityResult(requestCode, resultCode, data, new VKCallback<VKAccessToken>() {
             @Override
             public void onResult(VKAccessToken res) {
@@ -105,52 +120,20 @@ public class MainActivity extends FragmentActivity {
 //
 //                });
 
+                RealmQuery<Album> query = realm.where(Album.class);
+                result = query.findAll();
 
                 Call<CollectionAlbums> call = client.getAlbums(1, 20646473);
 
                 call.enqueue(new Callback<CollectionAlbums>() {
                     @Override
                     public void onResponse(Response<CollectionAlbums> response, Retrofit retrofit) {
-                        //LinearLayout linearLayout = (LinearLayout) findViewById(R.id.main_layout);
-                        android.app.FragmentTransaction ft = getFragmentManager().beginTransaction();
-
-                        for(AlbumItem albumItem : response.body().getAlbumItems()){
-                            FragmentCover fragmentCover = new FragmentCover();
-
-                            Bundle bundle = new Bundle();
-                            bundle.putInt("id", albumItem.getmId());
-                            bundle.putString("Title", albumItem.getmTitle());
-                            bundle.putString("Thumb_src", albumItem.getmThumb_src());
-
-                            fragmentCover.setArguments(bundle);
-                            ft.add(R.id.main_layout, fragmentCover);
-
-//                            Uri uri = Uri.parse(albumItem.getmThumb_src());
-//                            SimpleDraweeView simpleDraweeView =
-//                                    (SimpleDraweeView) fragmentCover.getView().findViewById(R.id.my_image_view);
-//                            //simpleDraweeView.setLayoutParams(new LinearLayout.LayoutParams(700, 700));
-//                            simpleDraweeView.setImageURI(uri);
-//                            String titleCover = albumItem.getmTitle();
-//                            ((TextView) fragmentCover.getView().findViewById(R.id.titleCover)).setText(titleCover);
-//                            simpleDraweeView.setOnClickListener(new View.OnClickListener() {
-//                                @Override
-//                                public void onClick(View v) {
-//                                    Toast.makeText(getApplicationContext(), "onClick", Toast.LENGTH_SHORT).show();
-//                                }
-//                            });
-
-                        }
-
-                        ft.commit();
-//                        String address = response.body().getAlbumItems().get(0).getmThumb_src();
-//                        Uri uri = Uri.parse(address);
-//                        SimpleDraweeView draweeView = (SimpleDraweeView) findViewById(R.id.my_image_view);
-//                        draweeView.setImageURI(uri);
+                        UpdateRealmAlbums(response.body().getAlbums());
+                        CreateFragments(response.body().getAlbums());
                     }
-
                     @Override
                     public void onFailure(Throwable t) {
-                        int d = 4;
+                        CreateFragments(result);
                     }
 
                 });
@@ -168,5 +151,66 @@ public class MainActivity extends FragmentActivity {
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
+    }
+
+    void UpdateRealmAlbums(ArrayList<Album> albums){
+
+        realm.beginTransaction();
+        for(int i = 0; i < result.size(); i++){
+            boolean contains = false;
+            Album album = result.get(i);
+
+            for (Album a : albums) {
+                if(album.getAid() == a.getAid()){
+                    contains = true;
+                    break;
+                }
+            }
+            if(!contains) {
+                album.removeFromRealm();//does not existed: removeFromRealm
+                i--;
+            }
+        }
+        realm.commitTransaction();
+
+        realm.beginTransaction();
+        realm.copyToRealmOrUpdate(albums);
+        realm.commitTransaction();
+    }
+
+    void CreateFragments(List<Album> albums){
+        android.app.FragmentTransaction ft = getFragmentManager().beginTransaction();
+        for(Album album : albums){
+
+            FragmentCover fragmentCover = new FragmentCover();
+
+            Bundle bundle = new Bundle();
+            bundle.putInt("id", album.getAid());
+            bundle.putString("Title", album.getTitle());
+            bundle.putString("Thumb_src", album.getThumb_src());
+
+            fragmentCover.setArguments(bundle);
+            ft.add(R.id.main_layout, fragmentCover);
+
+//                            Uri uri = Uri.parse(album.getmThumb_src());
+//                            SimpleDraweeView simpleDraweeView =
+//                                    (SimpleDraweeView) fragmentCover.getView().findViewById(R.id.my_image_view);
+//                            //simpleDraweeView.setLayoutParams(new LinearLayout.LayoutParams(700, 700));
+//                            simpleDraweeView.setImageURI(uri);
+//                            String titleCover = album.getmTitle();
+//                            ((TextView) fragmentCover.getView().findViewById(R.id.titleCover)).setText(titleCover);
+//                            simpleDraweeView.setOnClickListener(new View.OnClickListener() {
+//                                @Override
+//                                public void onClick(View v) {
+//                                    Toast.makeText(getApplicationContext(), "onClick", Toast.LENGTH_SHORT).show();
+//                                }
+//                            });
+
+        }
+        ft.commit();
+//                        String address = response.body().getAlbums().get(0).getmThumb_src();
+//                        Uri uri = Uri.parse(address);
+//                        SimpleDraweeView draweeView = (SimpleDraweeView) findViewById(R.id.my_image_view);
+//                        draweeView.setImageURI(uri);
     }
 }

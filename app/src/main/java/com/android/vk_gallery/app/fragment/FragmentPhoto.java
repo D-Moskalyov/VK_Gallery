@@ -7,8 +7,8 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import com.android.vk_gallery.app.service.PhotoURLParcelable;
 import com.android.vk_gallery.app.R;
-import com.android.vk_gallery.app.model.PhotoURL;
 import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.util.ArrayList;
@@ -16,6 +16,8 @@ import java.util.ArrayList;
 public class FragmentPhoto extends Fragment {
 
     Bundle bundle;
+    ArrayList<PhotoURLParcelable> photoURLParcelables;
+    boolean isOffline;
 
     @Nullable
     @Override
@@ -28,8 +30,9 @@ public class FragmentPhoto extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        ArrayList<PhotoURL> photoURLs = bundle.getParcelableArrayList("sizes");
-        Uri uri = Uri.parse(photoURLs.get(0).getSrc());
+        photoURLParcelables = bundle.getParcelableArrayList("sizes");
+        isOffline = bundle.getBoolean("isOffline");
+        Uri uri = Uri.parse(photoURLParcelables.get(0).getSrc());
 //        for(PhotoURL photoURL : photoURLs){
             SimpleDraweeView simpleDraweeView =
                     (SimpleDraweeView) this.getView().findViewById(R.id.image_view);
@@ -37,7 +40,8 @@ public class FragmentPhoto extends Fragment {
             simpleDraweeView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    int g = 5;
+                    photoURLParcelables = null;
+                    //start swipe
                 }
             });
 

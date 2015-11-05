@@ -1,22 +1,24 @@
-package com.android.vk_gallery.app.model;
+package com.android.vk_gallery.app.modelRealm;
 
 
 import com.google.gson.annotations.SerializedName;
+import io.realm.RealmList;
+import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
 
-import java.util.ArrayList;
-
-public class Photo {
+public class Photo extends RealmObject {
+    @PrimaryKey
     @SerializedName("pid")
-    int pid;
+    private int pid;
     @SerializedName("aid")
-    int aid;
+    private int aid;
     @SerializedName("owner_id")
-    int owner_id;
+    private int owner_id;
     @SerializedName("sizes")
-    ArrayList<PhotoURL> sizes;
+    private RealmList<PhotoURL> sizes;
 
     public Photo(){
-        sizes = new ArrayList<PhotoURL>();
+        sizes = new RealmList<PhotoURL>();
     }
 
     public int getAid() {
@@ -43,11 +45,11 @@ public class Photo {
         this.pid = pid;
     }
 
-    public ArrayList<PhotoURL> getSizes() {
+    public RealmList<PhotoURL> getSizes() {
         return sizes;
     }
 
-    public void setSizes(ArrayList<PhotoURL> sizes) {
+    public void setSizes(RealmList<PhotoURL> sizes) {
         this.sizes = sizes;
     }
 }

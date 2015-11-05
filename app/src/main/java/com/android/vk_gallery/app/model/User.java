@@ -2,15 +2,18 @@ package com.android.vk_gallery.app.model;
 
 
 import com.google.gson.annotations.SerializedName;
+import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
 
 
-public class User {
+public class User extends RealmObject {
+    @PrimaryKey
     @SerializedName("uid")
-    int uid;
+    private int uid;
     @SerializedName("first_name")
-    String first_name;
+    private String first_name;
     @SerializedName("last_name")
-    String last_name;
+    private String last_name;
 
     public User(){
 

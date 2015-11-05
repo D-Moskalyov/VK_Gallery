@@ -1,18 +1,23 @@
-package com.android.vk_gallery.app.model;
+package com.android.vk_gallery.app.modelRealm;
 
 
 import com.google.gson.annotations.SerializedName;
+import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
 
-import java.util.List;
-import java.util.Map;
+import java.util.StringTokenizer;
 
-public class AlbumItem {
-    @SerializedName("id")
-    int mId;
+
+public class Album extends RealmObject {
+    @PrimaryKey
+    @SerializedName("aid")
+    private int aid;
+    @SerializedName("owner_id")
+    private int owner_id;
     @SerializedName("title")
-    String mTitle;
+    private String title;
     @SerializedName("thumb_src")
-    String mThumb_src;
+    private String thumb_src;
 //    @SerializedName("thumb_id")
 //    int mThumb_id;
 //    @SerializedName("owner_id")
@@ -32,30 +37,56 @@ public class AlbumItem {
 //    @SerializedName("privacy_comment")
 //    List<TypePrivacy> mPrivacy_comment;
 
-    public AlbumItem(){
+    public Album(){
 
     }
 
+    public Album(int owner_id, int aid, String title, String thumb_src){
+        this.owner_id = owner_id;
+        this.aid = aid;
+        this.title = title;
+        this.thumb_src = thumb_src;
+    }
 
-    public int getmId() {
-        return mId;
+    public int getAid() {
+        return aid;
     }
-    public String getmThumb_src() {
-        return mThumb_src;
+
+    public void setAid(int aid) {
+        this.aid = aid;
     }
-    public String getmTitle() {
-        return mTitle;
+
+    public String getTitle() {
+        return title;
     }
-    public void setmId(int mId) {
-        this.mId = mId;
+
+    public void setTitle(String title) {
+        this.title = title;
     }
-    public void setmThumb_src(String mThumb_src) {
-        this.mThumb_src = mThumb_src;
+
+    public int getOwner_id() {
+        return owner_id;
     }
-    public void setmTitle(String mTitle) {
-        this.mTitle = mTitle;
+
+    public void setOwner_id(int owner_id) {
+        this.owner_id = owner_id;
     }
-    //    public void setmThumb_src(String thumb_src) {
+
+    public String getThumb_src() {
+        return thumb_src;
+    }
+
+    public void setThumb_src(String thumb_src) {
+        this.thumb_src = thumb_src;
+    }
+
+//    @Override
+//    public int compareTo(Album another) {
+//        if(aid == another.aid && owner_id == another.owner_id && title == another.title && thumb_src == another)
+//            return 0;
+//        return 1;
+//    }
+//    public void setmThumb_src(String thumb_src) {
 //        this.mThumb_src = thumb_src;
 //    }
 //
@@ -139,7 +170,7 @@ public class AlbumItem {
 //        this.mThumb_id = mThumb_id;
 //    }
 
-    //    public AlbumItem(int id, String title, String thumb_src, int thumb_id, int owner_id,
+    //    public Album(int id, String title, String thumb_src, int thumb_id, int owner_id,
 //                     String description, int created, int updated, int size, int thumb_is_last,
 //                     TypePrivacy privacy_view, TypePrivacy privacy_comment) {
 //        this.mId = id;

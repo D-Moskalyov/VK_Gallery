@@ -2,7 +2,7 @@ package com.android.vk_gallery.app.deserializer;
 
 
 import com.android.vk_gallery.app.model.CollectionPhotos;
-import com.android.vk_gallery.app.model.Photo;
+import com.android.vk_gallery.app.modelRealm.Photo;
 import com.google.gson.*;
 
 import java.lang.reflect.Type;
@@ -16,7 +16,7 @@ public class CollectionPhotosDeserializer implements JsonDeserializer<Collection
         JsonArray jsonArray = jsonObject.getAsJsonArray("response").getAsJsonArray();
 
         for(JsonElement photo : jsonArray) {
-            collectionPhotos.getPhotoItems().add((Photo) context.deserialize(photo, Photo.class));
+            collectionPhotos.getPhotos().add((Photo) context.deserialize(photo, Photo.class));
         }
 
         return collectionPhotos;

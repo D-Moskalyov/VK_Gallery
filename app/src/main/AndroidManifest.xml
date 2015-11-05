@@ -25,6 +25,10 @@
                    >
         </activity>
 
+        <activity android:name=".activity.SwipePhotoActivity"
+                >
+        </activity>
+
     </application>
 
 </manifest>

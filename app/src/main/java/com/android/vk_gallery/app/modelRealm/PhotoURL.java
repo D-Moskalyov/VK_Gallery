@@ -1,21 +1,23 @@
-package com.android.vk_gallery.app.model;
+package com.android.vk_gallery.app.modelRealm;
 
 
 import android.os.Parcel;
 import android.os.Parcelable;
 import com.google.gson.annotations.SerializedName;
+import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
 
-import java.io.Serializable;
 
-public class PhotoURL implements Parcelable {
+public class PhotoURL extends RealmObject   {
+    @PrimaryKey
     @SerializedName("src")
-    String src;
+    private String src;
     @SerializedName("width")
-    int width;
+    private int width;
     @SerializedName("height")
-    int height;
+    private int height;
     @SerializedName("type")
-    String type;
+    private String type;
 
     public PhotoURL() {
     }
@@ -52,13 +54,13 @@ public class PhotoURL implements Parcelable {
         this.width = width;
     }
 
-    //@Override
-    public int describeContents() {
-        return 0;
-    }
-
-    //@Override
-    public void writeToParcel(Parcel dest, int flags) {
-
-    }
+//    @Override
+//    public int describeContents() {
+//        return 0;
+//    }
+//
+//    @Override
+//    public void writeToParcel(Parcel dest, int flags) {
+//
+//    }
 }
