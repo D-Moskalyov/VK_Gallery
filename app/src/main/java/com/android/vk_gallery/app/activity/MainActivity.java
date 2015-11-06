@@ -42,13 +42,17 @@ public class MainActivity extends FragmentActivity {
         super.onCreate(savedInstanceState);
         //realm = ((MyApplication)getApplicationContext()).getRealm();
         setContentView(R.layout.main_layout);
-        //VKSdk.initialize(getApplicationContext());
         //app = (MyApplication)getApplication();
         //app.customAppMethod();
         VKSdk.login(this, sMyScope);
         realm = Realm.getDefaultInstance();
         //VKSdk.login(this, sMyScope);
         //VKSdk.login(Fragment runningFragment, String... scope);
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
     }
 
     @Override
@@ -123,7 +127,7 @@ public class MainActivity extends FragmentActivity {
                 RealmQuery<Album> query = realm.where(Album.class);
                 result = query.findAll();
 
-                Call<CollectionAlbums> call = client.getAlbums(1, 20646473);
+                Call<CollectionAlbums> call = client.getAlbums(1, 6129318);
 
                 call.enqueue(new Callback<CollectionAlbums>() {
                     @Override

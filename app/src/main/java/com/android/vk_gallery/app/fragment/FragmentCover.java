@@ -60,10 +60,12 @@ public class FragmentCover extends Fragment  {
                 FrameLayout frameLayout = (FrameLayout) simpleDraweeView.getParent();
                 TextView textView = (TextView) frameLayout.findViewById(R.id.titleCover);
                 int id = simpleDraweeView.getId();
+
                 Intent intent = new Intent(getActivity(), AlbumActivity.class);
                 intent.putExtra("title", textView.getText().toString());
                 intent.putExtra("id", id);
                 intent.putExtra("isOffline", isOffline);
+
                 startActivity(intent);
             }
         });
@@ -72,9 +74,9 @@ public class FragmentCover extends Fragment  {
             @Override
             public void onClick(View v) {
                 if(((CheckBox)v).isChecked())
-                    isOffline = false;
-                else
                     isOffline = true;
+                else
+                    isOffline = false;
             }
         });
     }

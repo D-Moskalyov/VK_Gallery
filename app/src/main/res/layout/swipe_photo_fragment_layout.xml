@@ -10,10 +10,10 @@
             <!--android:layout_height="fill_parent"-->
             <!--android:clickable="true"/>-->
 
-    <TextView
+    <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/image_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="Page 0"
-            android:id="@+id/text" />
+            android:clickable="true"/>
 
 </LinearLayout>

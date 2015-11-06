@@ -4,6 +4,7 @@ package com.android.vk_gallery.app;
 import android.content.Intent;
 import android.support.annotation.Nullable;
 import android.widget.Toast;
+import com.android.vk_gallery.app.activity.LoginActivity;
 import com.android.vk_gallery.app.activity.MainActivity;
 import com.android.vk_gallery.app.service.ServiceGenerator;
 import com.android.vk_gallery.app.service.VKClient;

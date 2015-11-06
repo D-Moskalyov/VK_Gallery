@@ -36,18 +36,20 @@ public class AlbumActivity extends FragmentActivity {
 
         //realm = ((MyApplication)getApplicationContext()).getRealm();
         realm = Realm.getDefaultInstance();
+
         Intent i = getIntent();
         Bundle bundle = i.getExtras();
         this.setTitle(bundle.getString("title"));
         int albumID = bundle.getInt("id");
         isOffline = bundle.getBoolean("isOffline");
+
         VKClient vkClient = ((MyApplication) getApplicationContext()).getVKClient();
 
         RealmQuery<Photo> query = realm.where(Photo.class);
         result = query.findAll();
 
         if(!isOffline){
-            Call<CollectionPhotos> call = vkClient.getPhotos(albumID, 20646473, 1);
+            Call<CollectionPhotos> call = vkClient.getPhotos(albumID, 6129318, 1);
 
             call.enqueue(new Callback<CollectionPhotos>() {
                 @Override
@@ -90,6 +92,9 @@ public class AlbumActivity extends FragmentActivity {
         realm.beginTransaction();
         realm.copyToRealmOrUpdate(photos);
         realm.commitTransaction();
+
+        RealmQuery<Photo> query = realm.where(Photo.class);//again
+        result = query.findAll();
     }
 
     void CreateFragments(List<Photo> photos){
@@ -105,10 +110,19 @@ public class AlbumActivity extends FragmentActivity {
             }
             bundle.putParcelableArrayList("sizes", photoURLParcelables);
             bundle.putBoolean("isOffline", isOffline);
+            bundle.putInt("pid", photo.getPid());
 
             fragmentPhoto.setArguments(bundle);
             ft.add(R.id.photo_lt, fragmentPhoto);
         }
         ft.commit();
+    }
+
+    public List<Photo> getPhoto(){
+        return result;
+    }
+
+    public boolean getIsOffline(){
+        return isOffline;
     }
 }

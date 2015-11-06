@@ -1,23 +1,35 @@
 package com.android.vk_gallery.app.fragment;
 
 import android.app.Fragment;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Size;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import com.android.vk_gallery.app.activity.AlbumActivity;
+import com.android.vk_gallery.app.activity.SwipePhotoActivity;
+import com.android.vk_gallery.app.modelRealm.Photo;
+import com.android.vk_gallery.app.modelRealm.PhotoURL;
+import com.android.vk_gallery.app.service.PhotoParcelable;
 import com.android.vk_gallery.app.service.PhotoURLParcelable;
 import com.android.vk_gallery.app.R;
+import com.android.vk_gallery.app.service.SizesForSwipe;
+import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 
 public class FragmentPhoto extends Fragment {
 
     Bundle bundle;
     ArrayList<PhotoURLParcelable> photoURLParcelables;
-    boolean isOffline;
+    int pid;
 
     @Nullable
     @Override
@@ -31,17 +43,47 @@ public class FragmentPhoto extends Fragment {
     public void onResume() {
         super.onResume();
         photoURLParcelables = bundle.getParcelableArrayList("sizes");
-        isOffline = bundle.getBoolean("isOffline");
+        pid = bundle.getInt("pid");
         Uri uri = Uri.parse(photoURLParcelables.get(0).getSrc());
 //        for(PhotoURL photoURL : photoURLs){
             SimpleDraweeView simpleDraweeView =
                     (SimpleDraweeView) this.getView().findViewById(R.id.image_view);
+
             simpleDraweeView.setImageURI(uri);
             simpleDraweeView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    photoURLParcelables = null;
-                    //start swipe
+                    Intent intent = new Intent(getActivity(), SwipePhotoActivity.class);
+                    boolean isOffline = ((AlbumActivity) getActivity()).getIsOffline();
+
+                    List<Photo> photos = ((AlbumActivity) getActivity()).getPhoto();
+
+                    //ArrayList<PhotoParcelable> photoParcelables = new ArrayList<PhotoParcelable>();
+                    int startPositionPhoto = -1;
+                    ArrayList<SizesForSwipe> sizesForSwipes = new ArrayList<SizesForSwipe>();
+                    for (int i = 0; i < photos.size(); i++) {
+                        if (photos.get(i).getPid() == pid)
+                            startPositionPhoto = i;//selected Photo
+                        List<PhotoURL> photoURLs = photos.get(i).getSizes();
+                        List<PhotoURLParcelable> photoURLParcelables = new ArrayList<PhotoURLParcelable>();
+                        for (PhotoURL photoURL : photoURLs) {
+                            photoURLParcelables.add(new PhotoURLParcelable(photoURL));
+                        }
+                        Collections.sort(photoURLParcelables);
+                        Collections.reverse(photoURLParcelables);
+
+                        sizesForSwipes.add(new SizesForSwipe(photoURLParcelables.get(photoURLParcelables.size() / 2).getSrc(),
+                                photoURLParcelables.get(0).getSrc()));//two sizes for swipe
+                    }
+
+                    String fuulSizePic;
+                    String mediumSizePic;
+
+
+                    intent.putExtra("isOffline", isOffline);
+                    intent.putExtra("positionPhoto", startPositionPhoto);
+                    intent.putExtra(SizesForSwipe.class.getCanonicalName(), sizesForSwipes);
+                    startActivity(intent);
                 }
             });
 
