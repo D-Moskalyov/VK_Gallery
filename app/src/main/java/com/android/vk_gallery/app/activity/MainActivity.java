@@ -10,11 +10,15 @@ import com.android.vk_gallery.app.modelRealm.Album;
 import com.android.vk_gallery.app.service.VKClient;
 import com.android.vk_gallery.app.model.CollectionAlbums;
 import com.facebook.drawee.backends.pipeline.Fresco;
+import com.google.gson.JsonArray;
+import com.google.gson.internal.Streams;
 import com.vk.sdk.VKAccessToken;
 import com.vk.sdk.VKCallback;
 import com.vk.sdk.VKScope;
 import com.vk.sdk.VKSdk;
 import com.vk.sdk.api.*;
+import com.vk.sdk.api.model.VKApiUser;
+import com.vk.sdk.api.model.VKUsersArray;
 import io.realm.Realm;
 import io.realm.RealmList;
 import io.realm.RealmQuery;
@@ -22,10 +26,12 @@ import io.realm.RealmResults;
 import io.realm.internal.CheckedRow;
 import io.realm.internal.Table;
 import io.realm.internal.UncheckedRow;
+import org.json.JSONException;
 import retrofit.Call;
 import retrofit.Callback;
 import retrofit.Response;
 import retrofit.Retrofit;
+import com.google.gson.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,6 +43,7 @@ public class MainActivity extends FragmentActivity {
     private static String[] sMyScope = new String[]{VKScope.PHOTOS};
     RealmResults<Album> result;
     Realm realm;
+    int ID;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,6 +64,8 @@ public class MainActivity extends FragmentActivity {
 
     @Override
     protected void onActivityResult(final int requestCode, int resultCode, Intent data) {
+        InitializeUser();
+
         if (!VKSdk.onActivityResult(requestCode, resultCode, data, new VKCallback<VKAccessToken>() {
             @Override
             public void onResult(VKAccessToken res) {
@@ -145,11 +154,35 @@ public class MainActivity extends FragmentActivity {
 
             @Override
             public void onError(VKError error) {
-                //
+                int y = 4;
             }
         })) {
             super.onActivityResult(requestCode, resultCode, data);
         }
+    }
+
+    private void InitializeUser() {
+        VKRequest request = new VKRequest("users.get");
+        request.executeWithListener(new VKRequest.VKRequestListener() {
+            @Override
+            public void onComplete(VKResponse response) {
+                String jSONString = response.json.toString();
+                int start = jSONString.indexOf("\"id\":") + 5;
+                int fin = jSONString.indexOf(",", start);
+                String idStr = jSONString.substring(start, fin);
+                ID = Integer.parseInt(idStr);
+            }
+
+            @Override
+            public void onError(VKError error) {
+                try {
+                    Thread.sleep(5000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                InitializeUser();
+            }
+        });
     }
 
     @Override

@@ -48,7 +48,6 @@ public class FragmentPhoto extends Fragment {
 //        for(PhotoURL photoURL : photoURLs){
             SimpleDraweeView simpleDraweeView =
                     (SimpleDraweeView) this.getView().findViewById(R.id.image_view);
-
             simpleDraweeView.setImageURI(uri);
             simpleDraweeView.setOnClickListener(new View.OnClickListener() {
                 @Override

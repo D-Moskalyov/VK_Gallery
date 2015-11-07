@@ -12,6 +12,12 @@ import com.android.vk_gallery.app.model.*;
 import com.android.vk_gallery.app.modelRealm.Photo;
 import com.android.vk_gallery.app.modelRealm.PhotoURL;
 import com.android.vk_gallery.app.service.VKClient;
+import com.facebook.drawee.backends.pipeline.Fresco;
+import com.facebook.imagepipeline.core.ImagePipelineConfig;
+import com.facebook.imagepipeline.producers.Consumer;
+import com.facebook.imagepipeline.producers.FetchState;
+import com.facebook.imagepipeline.producers.NetworkFetcher;
+import com.facebook.imagepipeline.producers.ProducerContext;
 import io.realm.Realm;
 import io.realm.RealmQuery;
 import io.realm.RealmResults;
@@ -22,6 +28,7 @@ import retrofit.Retrofit;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class AlbumActivity extends FragmentActivity {
 
