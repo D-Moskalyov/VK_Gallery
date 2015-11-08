@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import com.android.vk_gallery.app.MyApplication;
-import com.android.vk_gallery.app.modelRealm.Album;
 import com.android.vk_gallery.app.service.PhotoURLParcelable;
 import com.android.vk_gallery.app.R;
 import com.android.vk_gallery.app.fragment.FragmentPhoto;
@@ -12,12 +11,6 @@ import com.android.vk_gallery.app.model.*;
 import com.android.vk_gallery.app.modelRealm.Photo;
 import com.android.vk_gallery.app.modelRealm.PhotoURL;
 import com.android.vk_gallery.app.service.VKClient;
-import com.facebook.drawee.backends.pipeline.Fresco;
-import com.facebook.imagepipeline.core.ImagePipelineConfig;
-import com.facebook.imagepipeline.producers.Consumer;
-import com.facebook.imagepipeline.producers.FetchState;
-import com.facebook.imagepipeline.producers.NetworkFetcher;
-import com.facebook.imagepipeline.producers.ProducerContext;
 import io.realm.Realm;
 import io.realm.RealmQuery;
 import io.realm.RealmResults;
@@ -28,13 +21,13 @@ import retrofit.Retrofit;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class AlbumActivity extends FragmentActivity {
 
     Realm realm;
     RealmResults<Photo> result;
     boolean isOffline;
+    int albumID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,12 +40,12 @@ public class AlbumActivity extends FragmentActivity {
         Intent i = getIntent();
         Bundle bundle = i.getExtras();
         this.setTitle(bundle.getString("title"));
-        int albumID = bundle.getInt("id");
+        albumID = bundle.getInt("id");
         isOffline = bundle.getBoolean("isOffline");
 
         VKClient vkClient = ((MyApplication) getApplicationContext()).getVKClient();
 
-        RealmQuery<Photo> query = realm.where(Photo.class);
+        RealmQuery<Photo> query = realm.where(Photo.class).equalTo("aid", albumID);
         result = query.findAll();
 
         if(!isOffline){
@@ -100,7 +93,7 @@ public class AlbumActivity extends FragmentActivity {
         realm.copyToRealmOrUpdate(photos);
         realm.commitTransaction();
 
-        RealmQuery<Photo> query = realm.where(Photo.class);//again
+        RealmQuery<Photo> query = realm.where(Photo.class).equalTo("aid", albumID);//again
         result = query.findAll();
     }
 

@@ -19,6 +19,7 @@ public class FragmentCover extends Fragment  {
 
     Bundle bundle;
     boolean isOffline;
+    int id;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -34,10 +35,6 @@ public class FragmentCover extends Fragment  {
         return inflater.inflate(R.layout.cover_fragment_layout, null);
     }
 
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-    }
 
     @Override
     public void onResume() {
@@ -46,8 +43,8 @@ public class FragmentCover extends Fragment  {
         SimpleDraweeView simpleDraweeView =
                 (SimpleDraweeView) this.getView().findViewById(R.id.my_image_view);
 
-        int id = bundle.getInt("id");
-        simpleDraweeView.setId(id);
+        id = bundle.getInt("id");
+        //simpleDraweeView.setId(id);
         //simpleDraweeView.setLayoutParams(new LinearLayout.LayoutParams(700, 700));
         simpleDraweeView.setImageURI(uri);
         String titleCover = bundle.getString("Title");
@@ -59,7 +56,7 @@ public class FragmentCover extends Fragment  {
                 SimpleDraweeView simpleDraweeView = (SimpleDraweeView) v;
                 FrameLayout frameLayout = (FrameLayout) simpleDraweeView.getParent();
                 TextView textView = (TextView) frameLayout.findViewById(R.id.titleCover);
-                int id = simpleDraweeView.getId();
+                //int id = simpleDraweeView.getId();
 
                 Intent intent = new Intent(getActivity(), AlbumActivity.class);
                 intent.putExtra("title", textView.getText().toString());
@@ -81,11 +78,4 @@ public class FragmentCover extends Fragment  {
         });
     }
 
-//    public void onCheckBoxClick(View v) {
-//        int t = 4;
-//    }
-//
-//    public void onSimpleDraweeViewClick(View view){
-//        int t = 0;
-//    }
 }

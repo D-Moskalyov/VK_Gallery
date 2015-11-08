@@ -12,12 +12,14 @@ import java.util.ArrayList;
 
 public class PhotoCollectionPagerAdapter extends FragmentStatePagerAdapter {
     int startPos;
+    //boolean isOffline;
     ArrayList<SizesForSwipe> sizesForSwipes;
 
     public PhotoCollectionPagerAdapter(FragmentManager fm) {
         super(fm);
         sizesForSwipes = SwipePhotoActivity.getSizes();
         startPos = SwipePhotoActivity.getStartPos();
+        //isOffline = SwipePhotoActivity.isOffline();
         //getItem(startPos);
     }
 

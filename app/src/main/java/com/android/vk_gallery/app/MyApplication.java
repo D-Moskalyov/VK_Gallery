@@ -23,7 +23,7 @@ public class MyApplication extends android.app.Application {
         public void onVKAccessTokenChanged(@Nullable VKAccessToken oldToken, @Nullable VKAccessToken newToken) {
             if (newToken == null) {
                 Toast.makeText(MyApplication.this, "AccessToken invalidated", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(MyApplication.this, MainActivity.class);
+                Intent intent = new Intent(MyApplication.this, LoginActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
             }

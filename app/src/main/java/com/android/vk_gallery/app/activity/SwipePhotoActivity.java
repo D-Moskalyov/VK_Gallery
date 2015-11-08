@@ -21,7 +21,7 @@ import java.util.List;
 public class SwipePhotoActivity extends FragmentActivity{
     PhotoCollectionPagerAdapter pCollPagerAdapter;
     ViewPager viewPager;
-    static boolean isOffline;
+    public static boolean isOffline;
     static int startPos;
     static ArrayList<SizesForSwipe> sizes;
 
@@ -55,7 +55,7 @@ public class SwipePhotoActivity extends FragmentActivity{
         viewPager = (ViewPager) findViewById(R.id.pager);
         viewPager.setAdapter(pCollPagerAdapter);
 
-        pCollPagerAdapter.getItem(startPos);
+        viewPager.setCurrentItem(startPos);
 
 
 //        viewPager.setOnPageChangeListener(
