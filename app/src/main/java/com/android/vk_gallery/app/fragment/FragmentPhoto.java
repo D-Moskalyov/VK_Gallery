@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.util.Size;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +12,6 @@ import com.android.vk_gallery.app.activity.AlbumActivity;
 import com.android.vk_gallery.app.activity.SwipePhotoActivity;
 import com.android.vk_gallery.app.modelRealm.Photo;
 import com.android.vk_gallery.app.modelRealm.PhotoURL;
-import com.android.vk_gallery.app.service.PhotoParcelable;
 import com.android.vk_gallery.app.service.PhotoURLParcelable;
 import com.android.vk_gallery.app.R;
 import com.android.vk_gallery.app.service.SizesForSwipe;
@@ -24,7 +22,6 @@ import com.facebook.imagepipeline.request.ImageRequest;
 import com.facebook.imagepipeline.request.ImageRequestBuilder;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -40,7 +37,6 @@ public class FragmentPhoto extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         bundle = getArguments();
         return inflater.inflate(R.layout.photo_fragment_layout, null);
-
     }
 
     @Override
@@ -65,7 +61,6 @@ public class FragmentPhoto extends Fragment {
                     .setLowestPermittedRequestLevel(ImageRequest.RequestLevel.DISK_CACHE)
                     .build();
             DraweeController controller = Fresco.newDraweeControllerBuilder()
-                    .setUri(uri)
                     .setImageRequest(request)
                     .build();
             simpleDraweeView.setController(controller);

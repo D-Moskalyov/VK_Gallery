@@ -9,20 +9,10 @@
             android:layout_height="wrap_content">
         <LinearLayout android:id="@+id/main_layout"
                       android:orientation="vertical"
-                      android:layout_width="wrap_content"
-                      android:layout_height="wrap_content"
-                      android:gravity="fill">
+                      android:layout_width="fill_parent"
+                      android:layout_height="wrap_content">
 
         </LinearLayout>
     </ScrollView>
-    <!--<com.facebook.drawee.view.SimpleDraweeView-->
-            <!--android:id="@+id/my_image_view"-->
-            <!--android:layout_width="130dp"-->
-            <!--android:layout_height="130dp"-->
-            <!--/>-->
-    <!--<fragment android:name="com.android.vk_gallery.app.fragment.FragmentCover"-->
-              <!--android:layout_width="wrap_content"-->
-              <!--android:layout_height="fill_parent">-->
-    <!--</fragment>-->
 
 </LinearLayout>

@@ -1,7 +1,6 @@
 package com.android.vk_gallery.app.fragment;
 
 
-import android.graphics.PointF;
 import android.net.Uri;
 import android.os.Environment;
 import android.support.v4.app.Fragment;
@@ -14,23 +13,12 @@ import android.widget.Toast;
 import com.android.vk_gallery.app.R;
 import com.android.vk_gallery.app.activity.SwipePhotoActivity;
 import com.android.vk_gallery.app.service.SizesForSwipe;
-import com.facebook.common.internal.Supplier;
-import com.facebook.common.references.CloseableReference;
-import com.facebook.datasource.DataSource;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.drawee.drawable.ScalingUtils;
-import com.facebook.drawee.generic.GenericDraweeHierarchy;
-import com.facebook.drawee.generic.GenericDraweeHierarchyBuilder;
 import com.facebook.drawee.interfaces.DraweeController;
-import com.facebook.drawee.interfaces.DraweeHierarchy;
-import com.facebook.drawee.view.DraweeHolder;
 import com.facebook.drawee.view.SimpleDraweeView;
-import com.facebook.imagepipeline.core.ImagePipeline;
-import com.facebook.imagepipeline.image.CloseableImage;
-import com.facebook.imagepipeline.memory.PooledByteBuffer;
 import com.facebook.imagepipeline.request.ImageRequest;
 import com.facebook.imagepipeline.request.ImageRequestBuilder;
-import io.realm.Realm;
 
 import java.io.*;
 import java.net.HttpURLConnection;
@@ -48,7 +36,7 @@ public class FragmentSwipePhoto extends Fragment{
         Bundle args = getArguments();
         SizesForSwipe sizesForSwipe = args.getParcelable(ARG_OBJECT);
         uriBig = Uri.parse(sizesForSwipe.getBigSize());
-        Uri medium = Uri.parse(sizesForSwipe.getMediumSize());
+        //Uri medium = Uri.parse(sizesForSwipe.getMediumSize());
         SimpleDraweeView simpleDraweeView = ((SimpleDraweeView) rootView.findViewById(R.id.image_view));
         simpleDraweeView
                 .getHierarchy()

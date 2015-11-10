@@ -3,7 +3,11 @@ package com.android.vk_gallery.app.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.view.Gravity;
+import android.view.View;
+import android.widget.LinearLayout;
 import com.android.vk_gallery.app.MyApplication;
+import com.android.vk_gallery.app.modelRealm.Album;
 import com.android.vk_gallery.app.service.PhotoURLParcelable;
 import com.android.vk_gallery.app.R;
 import com.android.vk_gallery.app.fragment.FragmentPhoto;
@@ -34,7 +38,6 @@ public class AlbumActivity extends FragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.photo_layout);
 
-        //realm = ((MyApplication)getApplicationContext()).getRealm();
         realm = Realm.getDefaultInstance();
 
         Intent i = getIntent();
@@ -49,7 +52,8 @@ public class AlbumActivity extends FragmentActivity {
         result = query.findAll();
 
         if(!isOffline){
-            Call<CollectionPhotos> call = vkClient.getPhotos(albumID, 6129318, 1);
+            Call<CollectionPhotos> call = vkClient.getPhotos(albumID, MainActivity.getID(), 1);
+            //Call<CollectionPhotos> call = vkClient.getPhotos(albumID, 6129318, 1);
 
             call.enqueue(new Callback<CollectionPhotos>() {
                 @Override
@@ -98,8 +102,30 @@ public class AlbumActivity extends FragmentActivity {
     }
 
     void CreateFragments(List<Photo> photos){
+
+        LinearLayout photo_lt = (LinearLayout) findViewById(R.id.photo_lt);
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT);
+        layoutParams.gravity = Gravity.CENTER;
         android.app.FragmentTransaction ft = getFragmentManager().beginTransaction();
+        LinearLayout layout = new LinearLayout(this);
+
+        int i = 0;
+        int j;
+        if (getResources().getConfiguration().orientation == getResources().getConfiguration().ORIENTATION_LANDSCAPE)
+            j = 6;
+        else
+            j = 3;
+
         for(Photo photo : photos) {
+            if (i % j == 0) {
+                layout = new LinearLayout(this);
+                layout.setOrientation(LinearLayout.HORIZONTAL);
+                layout.setLayoutParams(layoutParams);
+                layout.setId(View.generateViewId());
+
+                photo_lt.addView(layout);
+            }
 
             FragmentPhoto fragmentPhoto = new FragmentPhoto();
 
@@ -113,7 +139,9 @@ public class AlbumActivity extends FragmentActivity {
             bundle.putInt("pid", photo.getPid());
 
             fragmentPhoto.setArguments(bundle);
-            ft.add(R.id.photo_lt, fragmentPhoto);
+            ft.add(layout.getId(), fragmentPhoto);
+
+            i++;
         }
         ft.commit();
     }

@@ -1,18 +1,19 @@
 package com.android.vk_gallery.app.activity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.view.Gravity;
+import android.view.View;
+import android.widget.LinearLayout;
 import com.android.vk_gallery.app.fragment.FragmentCover;
 import com.android.vk_gallery.app.MyApplication;
 import com.android.vk_gallery.app.R;
 import com.android.vk_gallery.app.modelRealm.Album;
+import com.android.vk_gallery.app.modelRealm.Photo;
+import com.android.vk_gallery.app.modelRealm.PhotoURL;
 import com.android.vk_gallery.app.service.VKClient;
 import com.android.vk_gallery.app.model.CollectionAlbums;
-import com.vk.sdk.VKAccessToken;
-import com.vk.sdk.VKCallback;
 import com.vk.sdk.VKScope;
-import com.vk.sdk.VKSdk;
 import com.vk.sdk.api.*;
 import io.realm.Realm;
 import io.realm.RealmQuery;
@@ -28,25 +29,29 @@ import java.util.List;
 
 public class MainActivity extends FragmentActivity {
 
-    //protected MyApplication app;
-    private static String[] sMyScope = new String[]{VKScope.PHOTOS};
     RealmResults<Album> result;
     Realm realm;
-    int ID;
+
+    public static int getID() {
+        return ID;
+    }
+
+    static int ID;
     VKClient client;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_layout);
         InitializeUser();
-        //VKSdk.login(this, sMyScope);
         realm = Realm.getDefaultInstance();
+
         client = ((MyApplication)getApplicationContext()).getVKClient();
 
         RealmQuery<Album> query = realm.where(Album.class);
         result = query.findAll();
 
-        Call<CollectionAlbums> call = client.getAlbums(1, 6129318);
+        //Call<CollectionAlbums> call = client.getAlbums(1, 6129318);
+        Call<CollectionAlbums> call = client.getAlbums(1, getID());
 
         call.enqueue(new Callback<CollectionAlbums>() {
             @Override
@@ -63,57 +68,9 @@ public class MainActivity extends FragmentActivity {
         });
     }
 
-    @Override
-    protected void onRestart() {
-        super.onRestart();
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-    }
-
-//    @Override
-//    protected void onActivityResult(final int requestCode, int resultCode, Intent data) {
-//        InitializeUser();
-//
-//        if (!VKSdk.onActivityResult(requestCode, resultCode, data, new VKCallback<VKAccessToken>() {
-//            @Override
-//            public void onResult(VKAccessToken res) {
-//
-//                VKClient client = ((MyApplication)getApplicationContext()).getVKClient();
-//
-//                RealmQuery<Album> query = realm.where(Album.class);
-//                result = query.findAll();
-//
-//                Call<CollectionAlbums> call = client.getAlbums(1, 6129318);
-//
-//                call.enqueue(new Callback<CollectionAlbums>() {
-//                    @Override
-//                    public void onResponse(Response<CollectionAlbums> response, Retrofit retrofit) {
-//                        UpdateRealmAlbums(response.body().getAlbums());
-//                        CreateFragments(response.body().getAlbums());
-//                    }
-//                    @Override
-//                    public void onFailure(Throwable t) {
-//                        CreateFragments(result);
-//                    }
-//
-//                });
-//            }
-//
-//            @Override
-//            public void onError(VKError error) {
-//                int y = 4;
-//            }
-//        })) {
-//            super.onActivityResult(requestCode, resultCode, data);
-//        }
-//    }
-
     private void InitializeUser() {
         VKRequest request = new VKRequest("users.get");
-        request.executeWithListener(new VKRequest.VKRequestListener() {
+        request.executeSyncWithListener(new VKRequest.VKRequestListener() {
             @Override
             public void onComplete(VKResponse response) {
                 String jSONString = response.json.toString();
@@ -133,6 +90,7 @@ public class MainActivity extends FragmentActivity {
                 InitializeUser();
             }
         });
+
     }
 
     void UpdateRealmAlbums(ArrayList<Album> albums){
@@ -160,9 +118,31 @@ public class MainActivity extends FragmentActivity {
         realm.commitTransaction();
     }
 
-    void CreateFragments(List<Album> albums){
+    void CreateFragments(List<Album> albums) {
+
+        LinearLayout mainLayout = (LinearLayout) findViewById(R.id.main_layout);
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT);
+        layoutParams.gravity = Gravity.CENTER;
         android.app.FragmentTransaction ft = getFragmentManager().beginTransaction();
-        for(Album album : albums){
+        LinearLayout layout = new LinearLayout(this);
+
+        int i = 0;
+        int j;
+        if (getResources().getConfiguration().orientation == getResources().getConfiguration().ORIENTATION_LANDSCAPE)
+            j = 4;
+        else
+            j = 2;
+
+        for (Album album : albums) {
+            if (i % j == 0) {
+                layout = new LinearLayout(this);
+                layout.setOrientation(LinearLayout.HORIZONTAL);
+                layout.setLayoutParams(layoutParams);
+                layout.setId(View.generateViewId());
+
+                mainLayout.addView(layout);
+            }
 
             FragmentCover fragmentCover = new FragmentCover();
 
@@ -172,7 +152,9 @@ public class MainActivity extends FragmentActivity {
             bundle.putString("Thumb_src", album.getThumb_src());
 
             fragmentCover.setArguments(bundle);
-            ft.add(R.id.main_layout, fragmentCover);
+            ft.add(layout.getId(), fragmentCover);
+
+            i++;
         }
         ft.commit();
     }

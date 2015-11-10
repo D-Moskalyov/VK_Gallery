@@ -19,8 +19,6 @@ public class PhotoCollectionPagerAdapter extends FragmentStatePagerAdapter {
         super(fm);
         sizesForSwipes = SwipePhotoActivity.getSizes();
         startPos = SwipePhotoActivity.getStartPos();
-        //isOffline = SwipePhotoActivity.isOffline();
-        //getItem(startPos);
     }
 
     @Override
@@ -39,8 +37,4 @@ public class PhotoCollectionPagerAdapter extends FragmentStatePagerAdapter {
         return sizesForSwipes.size();
     }
 
-    //    @Override
-//    public CharSequence getPageTitle(int position) {
-//        return "OBJECT " + (sizesForSwipes.get(position).getMediumSize());
-//    }
 }

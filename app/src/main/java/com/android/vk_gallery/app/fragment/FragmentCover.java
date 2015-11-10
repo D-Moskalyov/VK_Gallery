@@ -44,8 +44,6 @@ public class FragmentCover extends Fragment  {
                 (SimpleDraweeView) this.getView().findViewById(R.id.my_image_view);
 
         id = bundle.getInt("id");
-        //simpleDraweeView.setId(id);
-        //simpleDraweeView.setLayoutParams(new LinearLayout.LayoutParams(700, 700));
         simpleDraweeView.setImageURI(uri);
         String titleCover = bundle.getString("Title");
         ((TextView) this.getView().findViewById(R.id.titleCover)).setText(titleCover);
@@ -56,7 +54,6 @@ public class FragmentCover extends Fragment  {
                 SimpleDraweeView simpleDraweeView = (SimpleDraweeView) v;
                 FrameLayout frameLayout = (FrameLayout) simpleDraweeView.getParent();
                 TextView textView = (TextView) frameLayout.findViewById(R.id.titleCover);
-                //int id = simpleDraweeView.getId();
 
                 Intent intent = new Intent(getActivity(), AlbumActivity.class);
                 intent.putExtra("title", textView.getText().toString());
